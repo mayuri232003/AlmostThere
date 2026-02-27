@@ -28,6 +28,6 @@ Step 1 — In a terminal inside the backend folder:
   python app.py
   (keep this running!)
 
-Step 2 — Double-click frontend/index.html
+Step 2 — visit this link in browser "http://127.0.0.1:5000/"
 
 Done!
