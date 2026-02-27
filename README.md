@@ -6,6 +6,11 @@
 ![Groq](https://img.shields.io/badge/Groq-Llama%203.3-orange?style=flat-square)
 ![License](https://img.shields.io/badge/License-MIT-yellow?style=flat-square)
 
+<img width="1896" height="866" alt="image" src="https://github.com/user-attachments/assets/f97351b7-e764-4a5c-adab-ff070521bdbc" />
+<img width="1893" height="857" alt="image" src="https://github.com/user-attachments/assets/c01e7732-b585-4a55-a8ed-f8216185b54c" />
+<img width="1897" height="865" alt="image" src="https://github.com/user-attachments/assets/c2acb33f-8ee6-43c9-b1cf-409f53304cc0" />
+<img width="1883" height="857" alt="image" src="https://github.com/user-attachments/assets/4ac7da94-7a91-4daa-a375-79813522de5b" />
+
 ---
 
 ## What is AlmostThere?
