@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AlmostThere — AI Resume Optimizer</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Figtree:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="src/styles/main.css" />
+</head>
+<body>
+
+  <!-- ═══════════════════════════════════════
+       HERO / LANDING
+  ═══════════════════════════════════════ -->
+  <section class="hero" id="hero">
+    <div class="hero-bg-grid"></div>
+    <div class="hero-content">
+      <div class="hero-eyebrow">AI-Powered · ATS-Optimized</div>
+      <h1 class="hero-title">Almost<span class="grad">There.</span></h1>
+      <p class="hero-sub">
+        Paste your resume + job description.<br/>
+        Get a tailored resume, cover letter, and HR message — in seconds.
+      </p>
+      <button class="hero-cta" onclick="scrollToApp()">
+        Start Optimizing
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+      <div class="hero-pills">
+        <span class="pill">✦ ATS-Friendly Format</span>
+        <span class="pill">✦ X→Y→Z Bullets</span>
+        <span class="pill">✦ Cover Letter</span>
+        <span class="pill">✦ HR Cold Message</span>
+      </div>
+    </div>
+    <div class="hero-preview">
+      <div class="preview-card">
+        <div class="preview-tag">Output Preview</div>
+        <div class="preview-lines">
+          <div class="pline pline-head"></div>
+          <div class="pline pline-sub"></div>
+          <div class="pline pline-divider"></div>
+          <div class="pline pline-sm"></div>
+          <div class="pline pline-full"></div>
+          <div class="pline pline-med"></div>
+          <div class="pline pline-full"></div>
+          <div class="pline pline-lg"></div>
+          <div class="pline pline-sm"></div>
+          <div class="pline pline-full"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════
+       MAIN APP
+  ═══════════════════════════════════════ -->
+  <main class="app-shell" id="app">
+
+    <div class="app-header">
+      <div class="logo">AlmostThere<span class="dot">.</span></div>
+      <div class="app-subtitle">Fill in both fields below, then let the AI do the work</div>
+    </div>
+
+    <!-- INPUT SECTION -->
+    <section class="input-section">
+      <div class="input-grid">
+
+        <!-- Resume input -->
+        <div class="input-card" id="resume-card">
+          <div class="input-card-header">
+            <div class="input-icon">📄</div>
+            <div>
+              <div class="input-label">Your Resume</div>
+              <div class="input-hint">Paste the full text of your current resume</div>
+            </div>
+          </div>
+          <textarea
+            id="resume-input"
+            class="big-textarea"
+            placeholder="Paste your resume text here...&#10;&#10;Include: Name, Contact, Education, Work Experience, Projects, Skills&#10;&#10;Tip: Copy-paste from Word / PDF / LaTeX source"
+            spellcheck="false"
+          ></textarea>
+          <div class="char-counter" id="resume-counter">0 characters</div>
+        </div>
+
+        <!-- JD input -->
+        <div class="input-card" id="jd-card">
+          <div class="input-card-header">
+            <div class="input-icon">🎯</div>
+            <div>
+              <div class="input-label">Job Description</div>
+              <div class="input-hint">Paste the complete job posting</div>
+            </div>
+          </div>
+          <textarea
+            id="jd-input"
+            class="big-textarea"
+            placeholder="Paste the full job description here...&#10;&#10;Include: Job title, company, responsibilities, requirements&#10;&#10;Tip: More detail = better optimization"
+            spellcheck="false"
+          ></textarea>
+          <div class="char-counter" id="jd-counter">0 characters</div>
+        </div>
+
+      </div>
+
+      <!-- Optional extras -->
+      <div class="extras-row">
+        <div class="extra-field">
+          <label for="recruiter-name">Recruiter / HR Name <span class="opt">(optional)</span></label>
+          <input type="text" id="recruiter-name" placeholder="e.g. Alex, Sarah, Mr. Johnson" />
+        </div>
+        <div class="extra-field">
+          <label for="company-name">Company Name <span class="opt">(optional)</span></label>
+          <input type="text" id="company-name" placeholder="e.g. Amazon, Google, Shopify" />
+        </div>
+        <div class="extra-field">
+          <label for="role-name">Role Title <span class="opt">(optional)</span></label>
+          <input type="text" id="role-name" placeholder="e.g. Data Scientist, SWE II" />
+        </div>
+      </div>
+
+      <!-- Generate button -->
+      <div class="generate-wrap">
+        <button class="generate-btn" id="generate-btn" onclick="generateAll()">
+          <span class="generate-icon">⚡</span>
+          <span class="generate-label">Optimize My Application</span>
+          <div class="generate-spinner"></div>
+        </button>
+        <div class="generate-note">Powered by Claude AI · Takes ~15–30 seconds</div>
+      </div>
+    </section>
+
+    <!-- PROGRESS / STATUS -->
+    <div class="progress-section" id="progress-section" style="display:none;">
+      <div class="progress-bar-wrap">
+        <div class="progress-bar" id="progress-bar"></div>
+      </div>
+      <div class="progress-steps" id="progress-steps">
+        <div class="pstep" id="ps-1">⟳ Analyzing resume &amp; JD alignment...</div>
+        <div class="pstep" id="ps-2">⟳ Tailoring resume bullets (X→Y→Z format)...</div>
+        <div class="pstep" id="ps-3">⟳ Writing cover letter...</div>
+        <div class="pstep" id="ps-4">⟳ Drafting HR cold message...</div>
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════
+         RESULTS
+    ═══════════════════════════════════════ -->
+    <section class="results-section" id="results-section" style="display:none;">
+
+      <!-- ATS Score banner -->
+      <div class="ats-banner" id="ats-banner">
+        <div class="ats-left">
+          <div class="ats-label">Estimated ATS Match Score</div>
+          <div class="ats-score-wrap">
+            <div class="ats-score" id="ats-score">—</div>
+            <div class="ats-bar-wrap">
+              <div class="ats-bar" id="ats-bar"></div>
+            </div>
+          </div>
+        </div>
+        <div class="ats-tags" id="ats-tags"></div>
+      </div>
+
+      <!-- Tab navigation -->
+      <div class="result-tabs">
+        <button class="rtab active" data-tab="resume" onclick="switchResultTab('resume', this)">
+          📄 Tailored Resume
+        </button>
+        <button class="rtab" data-tab="cover" onclick="switchResultTab('cover', this)">
+          ✉️ Cover Letter
+        </button>
+        <button class="rtab" data-tab="hr" onclick="switchResultTab('hr', this)">
+          💬 HR Message
+        </button>
+      </div>
+
+      <!-- ── TAB 1: Resume ─────────────────── -->
+      <div class="result-pane active" id="pane-resume">
+        <div class="pane-toolbar">
+          <div class="pane-info">
+            <span class="pane-badge">ATS Optimized</span>
+            <span class="pane-badge green">X→Y→Z Bullets</span>
+            <span class="pane-badge blue">JD-Aligned</span>
+          </div>
+          <div class="pane-actions">
+            <button class="action-btn" onclick="copyContent('resume-output')">
+              <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><rect x="5" y="5" width="9" height="9" rx="1" stroke="currentColor" stroke-width="1.5"/><path d="M11 5V3a1 1 0 00-1-1H3a1 1 0 00-1 1v7a1 1 0 001 1h2" stroke="currentColor" stroke-width="1.5"/></svg>
+              Copy
+            </button>
+            <button class="action-btn primary" onclick="downloadResume()">
+              <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M8 2v8M5 7l3 3 3-3M2 12v1a1 1 0 001 1h10a1 1 0 001-1v-1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+              Download PDF
+            </button>
+          </div>
+        </div>
+        <div class="resume-output" id="resume-output">
+          <!-- Rendered resume goes here -->
+        </div>
+      </div>
+
+      <!-- ── TAB 2: Cover Letter ────────────── -->
+      <div class="result-pane" id="pane-cover">
+        <div class="pane-toolbar">
+          <div class="pane-info">
+            <span class="pane-badge">Professional</span>
+            <span class="pane-badge green">Personalized</span>
+          </div>
+          <div class="pane-actions">
+            <button class="action-btn" onclick="copyContent('cover-output')">
+              <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><rect x="5" y="5" width="9" height="9" rx="1" stroke="currentColor" stroke-width="1.5"/><path d="M11 5V3a1 1 0 00-1-1H3a1 1 0 00-1 1v7a1 1 0 001 1h2" stroke="currentColor" stroke-width="1.5"/></svg>
+              Copy
+            </button>
+            <button class="action-btn primary" onclick="downloadDoc('cover-output', 'cover-letter')">
+              <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M8 2v8M5 7l3 3 3-3M2 12v1a1 1 0 001 1h10a1 1 0 001-1v-1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+              Download
+            </button>
+          </div>
+        </div>
+        <div class="letter-output" id="cover-output"></div>
+      </div>
+
+      <!-- ── TAB 3: HR Message ──────────────── -->
+      <div class="result-pane" id="pane-hr">
+        <div class="pane-toolbar">
+          <div class="pane-info">
+            <span class="pane-badge">LinkedIn / Email</span>
+            <span class="pane-badge green">Under 150 words</span>
+          </div>
+          <div class="pane-actions">
+            <button class="action-btn" onclick="copyContent('hr-output')">
+              <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><rect x="5" y="5" width="9" height="9" rx="1" stroke="currentColor" stroke-width="1.5"/><path d="M11 5V3a1 1 0 00-1-1H3a1 1 0 00-1 1v7a1 1 0 001 1h2" stroke="currentColor" stroke-width="1.5"/></svg>
+              Copy Message
+            </button>
+          </div>
+        </div>
+        <div class="hr-output" id="hr-output"></div>
+        <div class="hr-tip">
+          <strong>💡 Pro Tip:</strong> Send this on LinkedIn as a connection message or follow-up after applying.
+          Keep it short — recruiters appreciate brevity.
+        </div>
+      </div>
+
+      <!-- Reset -->
+      <div class="reset-wrap">
+        <button class="reset-btn" onclick="resetApp()">↩ Start Over with a New Application</button>
+      </div>
+
+    </section>
+
+    <!-- Error toast -->
+    <div class="toast" id="toast"></div>
+
+  </main>
+
+  <!-- ═══════════════════════════════════════
+       FOOTER
+  ═══════════════════════════════════════ -->
+  <footer class="footer">
+    <div>AlmostThere — Built with Claude AI · For demo &amp; portfolio use</div>
+  </footer>
+
+  <script src="src/js/prompts.js"></script>
+  <script src="src/js/api.js"></script>
+  <script src="src/js/render.js"></script>
+  <script src="src/js/download.js"></script>
+  <script src="src/js/app.js"></script>
+
+</body>
+</html>

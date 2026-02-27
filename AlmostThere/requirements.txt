@@ -1,0 +1,17 @@
+# AlmostThere — Python Dependencies
+# Install with: pip install -r requirements.txt
+
+# Web framework
+flask==3.0.3
+
+# Cross-Origin Resource Sharing — lets browser call our API
+flask-cors==4.0.1
+
+# Groq Python SDK — free AI API (get key at console.groq.com)
+groq>=0.9.0
+
+# Reads .env file into os.environ
+python-dotenv==1.0.1
+
+# Production WSGI server (use when deploying)
+gunicorn==22.0.0
